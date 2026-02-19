@@ -1,13 +1,11 @@
 import { mockGifs } from "./mock-data/gifs.mock";
+import { CustomHeader } from './shared/components/CustomHeader';
 
 export const GifsApp = () => {
   return (
     <>
       {/* header */}
-      <div className="content-center">
-        <h1>Gifs search</h1>
-        <p>Discover and share the perfect gif</p>
-      </div>
+      <CustomHeader title="Gifs search" description="Discover and share the perfect gif" />
       {/* search container */}
       <div className="search-container">
         <input type="text" placeholder="Search gifs" />
