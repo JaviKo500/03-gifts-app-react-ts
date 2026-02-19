@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -8,6 +8,16 @@ interface SearchBarProps {
 
 export const SearchBar = ({ placeholder = 'Search gifs', buttonText = 'Search', onQuery }: SearchBarProps ) => {
   const [query, setQuery] = useState('');
+
+  useEffect( () => {
+    const timeoutId = setTimeout( () => {
+      onQuery(query);
+    }, 700);
+    return () => {
+      clearTimeout(timeoutId);
+    }
+  }, [ query, onQuery ]);
+  
   const handleSearch = () => {
     if ( !query ) return;
     onQuery(query);
