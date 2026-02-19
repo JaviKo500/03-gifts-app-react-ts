@@ -12,6 +12,7 @@ export const SearchBar = ({ placeholder = 'Search gifs', buttonText = 'Search', 
   useEffect( () => {
     const timeoutId = setTimeout( () => {
       onQuery(query);
+      setQuery('');
     }, 700);
     return () => {
       clearTimeout(timeoutId);
