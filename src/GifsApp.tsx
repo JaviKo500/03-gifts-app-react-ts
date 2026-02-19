@@ -7,17 +7,22 @@ import { mockGifs } from "./mock-data/gifs.mock";
 import { useState } from "react";
 
 export const GifsApp = () => {
-  const [previousTerms, setpreviousTerms] = useState(['dragon ball z']);
+  const [previousTerms, setPreviousTerms] = useState(['dragon ball z']);
   const handleTermClick = (term: string) => {
     console.log('<--------------- JK GifsApp --------------->');
     console.log(term);
   };
+
+  const handleSearch = (query: string) => {
+    console.log('<--------------- JK GifsApp --------------->');
+    console.log(query);
+  }
   return (
     <>
       {/* header */}
       <CustomHeader title="Gifs search" description="Discover and share the perfect gif" />
       {/* search container */}
-      <SearchBar placeholder="Search anything"/>
+      <SearchBar placeholder="Search anything" onQuery={handleSearch}/>
       {/* previous searches */}
       <PreviousSearches searches={previousTerms} onLabelClick={handleTermClick}/>
       {/* gifs container */}
