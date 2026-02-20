@@ -5,6 +5,7 @@ import { GifList } from "./gifs/components/GifList";
 
 import { mockGifs } from "./mock-data/gifs.mock";
 import { useState } from "react";
+import { getGifsByQueryAction } from "./gifs/actions/get-gifs-by-query.action";
 
 export const GifsApp = () => {
   const [previousTerms, setPreviousTerms] = useState<string[]>([]);
@@ -20,12 +21,13 @@ export const GifsApp = () => {
     setPreviousTerms([  query, ...previousTerms ]);
   }
 
-  const handleSearch = (query: string = '') => {
+  const handleSearch = async (query: string = '') => {
     query = query.trim().toLowerCase();
     if ( !query ) return;
     handleAddPreviousTerm(query);
     console.log('<--------------- JK GifsApp --------------->');
     console.log(query);
+    await getGifsByQueryAction(query);
   }
   return (
     <>
