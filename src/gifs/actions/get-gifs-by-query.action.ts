@@ -8,7 +8,7 @@ export const getGifsByQueryAction = async ( query: string ): Promise<Gif[]> => {
     {
       params: {
         'q': query,
-        limit: 15,
+        limit: 10,
       }
     }
   );
