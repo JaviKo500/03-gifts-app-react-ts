@@ -27,7 +27,9 @@ export const GifsApp = () => {
     handleAddPreviousTerm(query);
     console.log('<--------------- JK GifsApp --------------->');
     console.log(query);
-    await getGifsByQueryAction(query);
+    const gc = await getGifsByQueryAction(query);
+    console.log('<--------------- JK GifsApp --------------->');
+    console.log(gc);
   }
   return (
     <>
