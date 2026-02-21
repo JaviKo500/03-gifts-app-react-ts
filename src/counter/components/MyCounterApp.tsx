@@ -1,16 +1,7 @@
-import { useState } from "react";
+import { useCounter } from "../hooks/useCounter";
 
 export const MyCounterApp = () => {
-  const [count, setCount] = useState(5);
-  const handleAdd = () => {
-    setCount(count + 1);
-  }
-  const handleSub = () => {
-    setCount(count - 1);
-  }
-  const handleReset = () => {
-    setCount(5);
-  }
+  const { count, handleAdd, handleSub, handleReset } = useCounter(2);
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>  
