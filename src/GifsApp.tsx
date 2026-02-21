@@ -1,34 +1,12 @@
-import { PreviousSearches } from "./gifs/components/PreviousSearches";
+import { PreviousSearches } from './gifs/components/PreviousSearches';
 import { CustomHeader } from './shared/components/CustomHeader';
-import { SearchBar } from "./shared/components/SearchBar";
-import { GifList } from "./gifs/components/GifList";
+import { SearchBar } from './shared/components/SearchBar';
+import { GifList } from './gifs/components/GifList';
 
-import { useState } from "react";
-import { getGifsByQueryAction } from "./gifs/actions/get-gifs-by-query.action";
-import type { Gif } from "./gifs/interfaces/gif.interface";
+import { useGifs } from './gifs/hooks/useGifs';
 
 export const GifsApp = () => {
-  const [previousTerms, setPreviousTerms] = useState<string[]>([]);
-  const [gifts, setPreviousGifts] = useState<Gif[]>([]);
-  const handleTermClick = (term: string) => {
-    console.log('<--------------- JK GifsApp --------------->');
-    console.log(term);
-  };
-
-  const handleAddPreviousTerm = (query: string) => {
-    query = query.toLowerCase().replaceAll(' ', '-');
-    if ( previousTerms.includes(query) ) return;
-    if ( previousTerms.length === 8 ) previousTerms.pop();
-    setPreviousTerms([  query, ...previousTerms ]);
-  }
-
-  const handleSearch = async (query: string = '') => {
-    query = query.trim().toLowerCase();
-    if ( !query ) return;
-    handleAddPreviousTerm(query);
-    const listGifts = await getGifsByQueryAction(query);
-    setPreviousGifts([ ...listGifts, ...gifts ])
-  }
+  const { gifts, previousTerms, handleSearch, handleTermClick } = useGifs();
   return (
     <>
       {/* header */}
