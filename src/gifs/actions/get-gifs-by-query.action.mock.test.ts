@@ -55,4 +55,36 @@ describe('Get-gifs-by-query.action.mock.test', () => {
     expect( consoleErrorSpy ).toHaveBeenCalledTimes(2);
     expect( consoleErrorSpy ).toHaveBeenCalledWith( expect.anything() );
   });
+
+  test( 'should return an empty list of gifs when the api not return a correct data value', async () => {
+    mock.onGet('/search').reply(
+      200,
+      {
+      }
+    );
+    const gifs = await getGifsByQueryAction('goku');
+    expect( gifs.length ).toBe(0);
+  });
+
+  test( 'should a return gift list with default values when not exist data valid', async () => {
+    mock.onGet('/search').reply(
+      200,
+      {
+        data:[
+          {}
+        ]
+      }
+    );
+
+    const gifs = await getGifsByQueryAction('goku');
+    expect( gifs.length ).toBe(1);
+    for (const gif of gifs) {
+      expect( gif.id ).toBe('');
+      expect( gif.title ).toBe('');
+      expect( gif.url ).toBe('');
+      expect( gif.width ).toBe(0);
+      expect( gif.height ).toBe(0);
+    }
+
+  });
 });

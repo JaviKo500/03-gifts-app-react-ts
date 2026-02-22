@@ -16,7 +16,7 @@ export const getGifsByQueryAction = async ( query: string ): Promise<Gif[]> => {
       }
     );
   
-    if ( !response.data.data ) return [];
+    if ( !response?.data?.data ) return [];
     return response.data.data?.map( (gift) => ({
         id: gift.id ?? '',
         title: gift.title ?? '',
