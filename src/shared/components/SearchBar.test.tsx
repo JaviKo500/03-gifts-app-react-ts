@@ -15,9 +15,39 @@ describe('SearchBar.test', () => {
     fireEvent.change( input, { target: {value: 'goku'} } );
 
     await waitFor( () => {
-      expect( onQuery ).toHaveBeenCalled()
+      expect( onQuery ).toHaveBeenCalled();
       expect( onQuery ).toHaveBeenCalledWith('goku');
     });
 
+  });
+  test( 'should call only once with the last value (debounce)', async () => {
+    const onQuery = vi.fn();
+    render(<SearchBar onQuery={ onQuery }/>);
+    const input = screen.getByRole('textbox');
+    fireEvent.change( input, { target: {value: 'g'} } );
+    fireEvent.change( input, { target: {value: 'go'} } );
+    fireEvent.change( input, { target: {value: 'gok'} } );
+    fireEvent.change( input, { target: {value: 'goku'} } );
+    await waitFor( () => {
+      expect( onQuery ).toHaveBeenCalledWith('goku');
+      expect( onQuery ).toHaveBeenCalledTimes(1);
+    });
+  });
+  test( 'should call onQuery when button clicked with input value', () => {
+    const onQuery = vi.fn();
+    render(<SearchBar onQuery={ onQuery }/>);
+    const input = screen.getByRole('textbox');
+    fireEvent.change( input, { target: {value: 'goku'} } );
+
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    expect( onQuery ).toHaveBeenCalledWith('goku');
+    expect( onQuery ).toHaveBeenCalledTimes(1);
+  });
+
+  test( 'should the input has the correct placeholder value', () => {
+    const value = 'Search gifs';
+    render(<SearchBar placeholder={value} onQuery={() => console.log}/>);
+    expect( screen.getByPlaceholderText(value) ).not.toBeNull(); 
   });
 });
