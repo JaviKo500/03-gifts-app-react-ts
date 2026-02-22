@@ -89,4 +89,29 @@ describe('UseGifs.test', () => {
     expect( result.current.previousTerms.at(0) ).toBe('auron');
     expect( result.current.previousTerms.at(-1) ).toBe('naruto');
   });
+  test( 'should not add term in previous terms list when term is empty', async () => {
+    const { result } = renderHook( () => useGifs()); 
+    vi.spyOn( gifsAction, 'getGifsByQueryAction' )
+      .mockResolvedValue( [] );
+    await act( async () => {
+      await result.current.handleSearch('');
+    });
+
+    expect( result.current.previousTerms.length ).toBe(0);
+  });
+  test( 'should not add term if includes in previous terms', async () => {
+    const { result } = renderHook( () => useGifs() );
+    vi.spyOn( gifsAction, 'getGifsByQueryAction' )
+      .mockResolvedValue( [] );
+    await act( async () => {
+      await result.current.handleSearch('goku');
+    });
+
+    await act( async () => {
+      await result.current.handleSearch('goku');
+    });
+
+    expect( result.current.previousTerms.length ).toBe(1);
+    expect( result.current.previousTerms.at(0) ).toBe('goku');
+  });
 });
