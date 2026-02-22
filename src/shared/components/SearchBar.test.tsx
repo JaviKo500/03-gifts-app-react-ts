@@ -24,6 +24,7 @@ describe('SearchBar.test', () => {
     const onQuery = vi.fn();
     render(<SearchBar onQuery={ onQuery }/>);
     const input = screen.getByRole('textbox');
+    fireEvent.change( input, { target: {} } );
     fireEvent.change( input, { target: {value: 'g'} } );
     fireEvent.change( input, { target: {value: 'go'} } );
     fireEvent.change( input, { target: {value: 'gok'} } );
@@ -49,5 +50,31 @@ describe('SearchBar.test', () => {
     const value = 'Search gifs';
     render(<SearchBar placeholder={value} onQuery={() => console.log}/>);
     expect( screen.getByPlaceholderText(value) ).not.toBeNull(); 
+  });
+
+  test( 'should not call onQuery when query is empty and click in button', () => {
+    const onQuery = vi.fn();
+    render(<SearchBar onQuery={ onQuery }/>);
+    const button = screen.getByRole('button');
+    const input = screen.getByRole('textbox');
+    fireEvent.change(  input, { target: {value: '' }});
+    fireEvent.click(button);
+    expect( onQuery ).not.toBeCalledTimes(1);
+  });
+  test( 'should not call onQuery when keyDown not is enter', () => {
+    const onQuery = vi.fn();
+    render(<SearchBar onQuery={ onQuery }/>);
+    const input = screen.getByRole('textbox');
+    fireEvent.change( input, { target: {value: 'goku'} } );
+    fireEvent.keyDown( input, { key: 'ArrowDown' } );
+    expect( onQuery).not.toBeCalled();
+  });
+  test( 'should call onQuery when keyDown is enter', () => {
+    const onQuery = vi.fn();
+    render(<SearchBar onQuery={ onQuery }/>);
+    const input = screen.getByRole('textbox');
+    fireEvent.change( input, { target: {value: 'goku'} } );
+    fireEvent.keyDown( input, { key: 'Enter' } );
+    expect( onQuery ).toHaveBeenCalled();
   });
 });
