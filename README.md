@@ -41,11 +41,17 @@ npm run dev
 Open http://localhost:5173 (Vite default) to view the app.
 
 ## Available Scripts
-
 - `npm run dev` — Start the Vite development server
-- `npm run build` — Build the production bundle (`tsc -b && vite build`)
+- `npm run build` — Build the production bundle. Note: this project runs the test runner before building (`npm run test:only && tsc -b && vite build`).
 - `npm run preview` — Preview the production build locally
 - `npm run lint` — Run ESLint
+
+Additional test-related scripts:
+
+- `npm run test` — Run Vitest in watch mode (developer-friendly)
+- `npm run test:ui` — Run Vitest with the interactive UI
+- `npm run test:only` — Run Vitest once (CI-style)
+- `npm run coverage` — Run Vitest and collect coverage reports
 
 ## Environment
 
@@ -64,6 +70,15 @@ This project reads the GIPHY API key from `import.meta.env.VITE_GIPHY_API_KEY`. 
 
 - The app expects the GIPHY API key in `VITE_GIPHY_API_KEY`.
 - The API client sets `lang: 'es'` by default in `src/gifs/api/giphy.api.ts` — change if you want another language.
+
+## Tests
+
+- This project uses `vitest` for unit tests and `@testing-library/react` for component testing.
+- To run all tests (watch): `npm run test`
+- To run tests once (suitable for CI or pre-build): `npm run test:only` (this is executed by `npm run build`).
+- To view coverage reports: `npm run coverage` (coverage results are generated under `coverage/`).
+
+- Recent test additions include unit tests for the `PreviousSearches` component (see `src/gifs/components/PreviousSearches.test.tsx`).
 
 ## License
 
